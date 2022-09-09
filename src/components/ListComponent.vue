@@ -1,17 +1,17 @@
 <template>
     <div>
         <ul v-if="notEmpty && isFilms" class="films__list">
-            <li v-for="film in list" :key="film.id" :class="listItemType">{{ `Titolo: ${film.title} Titolo Originale: ${film.original_title} Lingua Originale: ` }} <img :src="getFlagUrl(film.original_language)"> {{ ` Voto: ${film.vote_average}` }}</li>
+            <li v-for="film in list" :key="film.id" :class="listItemType"><ListItem :title="film.title" :originalTitle="film.original_title" :lang="film.original_language" :vote="film.vote_average"/></li>
         </ul>
         <ul v-if="notEmpty && isSeries" class="series__list">
-            <li v-for="serie in list" :key="serie.id" :class="listItemType">{{ `Titolo: ${serie.name} Titolo Originale: ${serie.original_name} Lingua Originale: ` }} <img :src="getFlagUrl(serie.original_language)"> {{ ` Voto: ${serie.vote_average}` }}</li>
+            <li v-for="serie in list" :key="serie.id" :class="listItemType"><ListItem :title="serie.name" :originalTitle="serie.original_name" :lang="serie.original_language" :vote="serie.vote_average"/></li>
         </ul>
     </div>
 </template>
 
 <script>
-
     import state from '../store'
+    import ListItem from './ListItemComponent.vue'
 
     export default {
         props: {
@@ -44,15 +44,9 @@
                 return stato;
             },
         },
-        methods: {
-            getFlagUrl(lang) {
-                if ( lang === 'en' )
-                    lang = 'gb';
-                if ( lang === 'ja' )
-                    lang = 'jp';
-                return `https://flagcdn.com/16x12/${lang}.png`
-            }
-        },
+        components: {
+            ListItem,
+        }
     }
 </script>
 

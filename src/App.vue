@@ -34,6 +34,7 @@
       query() {
         if ( this.query !== '' )
           this.getFilms();
+          this.getSeries();
       },
     },
     methods: {
@@ -47,6 +48,18 @@
         })
         .then((res) => {
           state.films = res.data.results;
+        });
+      },
+      getSeries() {
+        axios.get(`${this.baseUri}/search/tv`,{
+        params: {
+          api_key: this.apiKey,
+          query: this.query,
+          language: this.language,
+        }
+        })
+        .then((res) => {
+          state.series = res.data.results;
         });
       },
     },

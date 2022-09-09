@@ -1,7 +1,8 @@
 <template>
     <main class="main-content">
         <div class="container">
-            <ListComponent/>
+            <ListComponent type="films"/>
+            <ListComponent type="series"/>
         </div>
     </main>
 </template>

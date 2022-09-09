@@ -1,43 +1,21 @@
 <template>
   <div id="app">
-
+    <MainHeader/>
+    <MainContent/>
   </div>
 </template>
 
 <script>
-  import axios from 'axios'
+  import MainHeader from './components/HeaderComponent.vue'
+  import MainContent from './components/MainContentComponent.vue'
 
   export default {
 
     name: 'App',
     components: {
-      
+      MainHeader,
+      MainContent,
     },
-    data() {
-      return {
-        baseUri: 'https://api.themoviedb.org/3',
-        apiKey: '5702129c9507efdfcd526d3dbc3febce',
-        query: 'ritorno',
-        language: 'it-IT',
-      }
-    },
-    methods: {
-      getFilms() {
-        axios.get(`${this.baseUri}/search/movie`,{
-          params: {
-            api_key: this.apiKey,
-            query: this.query,
-            language: this.language,
-          }
-        })
-          .then((res) => {
-            console.log(res);
-          });
-      }
-    },
-    mounted() {
-      this.getFilms();
-    }
   }
 </script>
 

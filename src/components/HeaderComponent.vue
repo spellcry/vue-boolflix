@@ -32,6 +32,7 @@
         padding-block: 1rem;
         .container {
             display: flex;
+            flex-direction: column;
             align-items: center;
             padding-block: 0.25rem;
             .main-header__title {
@@ -41,9 +42,20 @@
             .search {
                 display: flex;
                 gap: 5px;
-                margin-left: auto;
+                margin-top: 1rem;
                 .search__btn {
                     padding-inline: 1rem;
+                }
+            }
+        }
+    }
+    @media (min-width: 600px) {
+        .main-header {
+            .container {
+                flex-direction: row;
+                .search {
+                    margin-top: 0;
+                    margin-left: auto;
                 }
             }
         }

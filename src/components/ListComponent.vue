@@ -82,9 +82,11 @@
     .list {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         gap: $list-gap;
         .list__item {
-            flex-basis: calc(calc(100% - calc($list-gap * 5)) / 6);
+            flex-basis: 100%;
+            max-width: 342px;
             height: 500px;
         }
     }

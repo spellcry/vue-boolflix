@@ -6,7 +6,9 @@
                 <p class="original-title"><span class="info-name">Titolo Originale:</span> {{ originalTitle }}</p>
                 <p class="lang"><span class="info-name">Lingua Originale:</span> <img :src="getFlagUrl(lang)"></p>
                 <p class="vote">
-                    Voto:
+                    <span class="info-name">
+                        Voto:
+                    </span>
                     <template v-if="voteModified > 0">
                         <font-awesome-icon v-for="n in voteModified" :key="n" icon="fa-solid fa-star" />
                     </template>
@@ -123,6 +125,14 @@ export default {
                 img {
                     width: 16px;
                 }
+            }
+            .vote {
+                .fa-star {
+                    color: gold
+                }
+            }
+            .overview {
+                line-height: 1.4;
             }
         }
         .poster {

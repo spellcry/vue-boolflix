@@ -1,10 +1,7 @@
 <template>
     <div>
-        <ul v-if="notEmpty && isFilms" class="films__list">
-            <li v-for="film in list" :key="film.id" :class="listItemType"><ListItem :title="film.title" :originalTitle="film.original_title" :lang="film.original_language" :vote="film.vote_average"/></li>
-        </ul>
-        <ul v-if="notEmpty && isSeries" class="series__list">
-            <li v-for="serie in list" :key="serie.id" :class="listItemType"><ListItem :title="serie.name" :originalTitle="serie.original_name" :lang="serie.original_language" :vote="serie.vote_average"/></li>
+        <ul v-if="notEmpty" :class="isFilms ? 'films__list' : 'series__list'">
+            <li v-for="item in list" :key="item.id" :class="listItemType"><ListItem :title="item.title" :originalTitle="item.original_title" :lang="item.original_language" :vote="item.vote_average" :poster="item.poster_path"/></li>
         </ul>
     </div>
 </template>
@@ -25,8 +22,19 @@
                 let list;
                 if ( this.isFilms )
                     list = state.films;
-                else if ( this.isSeries )
+                else if ( this.isSeries ) {
                     list = state.series;
+                    list = list.map((item) => {
+                        return {
+                            id: item.id,
+                            title: item.name,
+                            original_title: item.original_name,
+                            original_language: item.original_language,
+                            vote_average: item.vote_average,
+                            poster_path: item.poster_path,
+                        }                        
+                    });
+                }
                 return list;
             },
             isFilms() {
@@ -37,9 +45,9 @@
             },
             notEmpty() {
                 let stato;
-                if ( this.type === 'films')
+                if ( this.isFilms )
                     stato = state.films.length > 0;
-                if ( this.type === 'series')
+                if ( this.isSeries )
                     stato = state.series.length > 0;
                 return stato;
             },

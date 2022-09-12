@@ -10,9 +10,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import { faStar as fasStar} from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
+import { faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 
 /* add icons to the library */
-library.add(fasStar, farStar)
+library.add(fasStar, farStar, faCircleXmark)
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)

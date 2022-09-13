@@ -84,7 +84,7 @@
 <style lang="scss">
   @import './styles/index.scss';
   #app {
-    height: calc(100vh - 85px);
+    height: calc(100vh - 131px);
   }
 
   .main-content__loader {
@@ -93,5 +93,11 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+  }
+
+  @media (min-width: 600px) {
+    #app {
+      height: calc(100vh - 85px);
+    }
   }
 </style>

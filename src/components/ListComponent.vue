@@ -88,7 +88,7 @@
             aspect-ratio: 2/3;
         }
     }
-    @media (min-width: 600px) {
+    @media (min-width: 650px) {
         .list {
             .list__item {
                 flex-basis: calc(calc(100% - calc($list-gap * 1)) / 2);

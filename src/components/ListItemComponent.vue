@@ -5,11 +5,11 @@
                 <p class="title"><span class="info-name">Titolo:</span> {{ title }}</p>
                 <p class="original-title"><span class="info-name">Titolo Originale:</span> {{ originalTitle }}</p>
                 <p class="lang"><span class="info-name">Lingua Originale:</span> <img :src="getFlagUrl(lang)"></p>
-                <p class="actors">
+                <p v-if="hasActors" class="actors">
                     <span class="info-name">Attori:</span>
                     {{ actors }}
                 </p>
-                <p class="genres">
+                <p v-if="hasGenres" class="genres">
                     <span class="info-name">Generi:</span>
                     {{ genresFormatted }}
                 </p>
@@ -70,6 +70,12 @@ export default {
         },
         hasOverview() {
             return this.overview.length > 0;
+        },
+        hasActors() {
+            return !(this.credits[0] === 'nessuno');
+        },
+        hasGenres() {
+            return this.genres.length > 0;
         },
         voteModified() {
             return Math.ceil(this.vote / 2);

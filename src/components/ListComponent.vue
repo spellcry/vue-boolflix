@@ -10,6 +10,11 @@
         <ul v-if="notEmpty" :class="[isFilms ? 'films__list' : 'series__list', 'list']">
             <li v-for="item in list" :key="item.id" :class="[listItemType, 'list__item']"><ListItem :type="type" :genres="item.genre_ids" :id="item.id" :overview="item.overview" :title="item.title" :originalTitle="item.original_title" :lang="item.original_language" :vote="item.vote_average" :poster="item.poster_path"/></li>
         </ul>
+        <div class="pages">
+            <ul class="list">
+                <li @click="showPage(page)" v-for="page in totalPages" :key="page" :class="[page === pageSelected ? 'selected' : '','item']">{{ page }}</li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -83,11 +88,36 @@
                     genres = state.seriesGenre;
                 }
                 return genres;
-            }
+            },
+            totalPages() {
+                let pages;
+                if ( this.isFilms ) {
+                    pages = state.totalFilmsPages;
+                } else if ( this.isSeries ) {
+                    pages = state.totalSeriesPages;
+                }
+                return pages;
+            },
+            pageSelected() {
+                let select;
+                if ( this.isFilms )
+                    select = state.shownFilmsPage;
+                else if ( this.isSeries )
+                    select = state.shownSeriesPage;
+                return select;
+            },
         },
         components: {
             ListItem,
         },
+        methods: {
+            showPage(page) {
+                if ( this.isFilms )
+                    state.shownFilmsPage = page;
+                else if ( this.isSeries )
+                    state.shownSeriesPage = page;
+            },
+        }
     }
 </script>
 
@@ -105,6 +135,35 @@
             display: flex;
             justify-content: flex-end;
             padding-bottom: 2.5rem;
+        }
+        .pages {
+            display: flex;
+            justify-content: center;
+            padding-top: 2rem;
+            .list {
+                display: flex;
+                gap: 1rem;
+                .item {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 25px;
+                    aspect-ratio: 1;
+                    border-radius: 3px;
+                    background-color: white;
+                    color: $dark-grey;
+                    cursor: pointer;
+                    transition: transform 150ms ease-in-out;
+                    &:hover {
+                        transform: scale(1.2);
+                    }
+                    &.selected {
+                        border: 2px solid red;
+                        background-color: transparent;
+                        color: white;
+                    }
+                }
+            }
         }
     }
     .list {

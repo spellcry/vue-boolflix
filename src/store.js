@@ -12,6 +12,10 @@ const state = Vue.observable({
     loadedGenres: true,
     moviesGenre: [],
     seriesGenre: [],
+    totalFilmsPages: 0,
+    totalSeriesPages: 0,
+    shownFilmsPage: 1,
+    shownSeriesPage: 1,
 });
 
 export default state;

@@ -44,7 +44,13 @@
       },
       loadedGenres() {
         return state.loadedGenres;
-      }
+      },
+      filmsPage() {
+        return state.shownFilmsPage;
+      },
+      seriesPage() {
+        return state.shownSeriesPage;
+      },
     },
     watch: {
       query() {
@@ -54,6 +60,12 @@
           this.getMoviesGenres();
           this.getSeriesGenres();
       },
+      filmsPage() {
+        this.getFilms();
+      },
+      seriesPage() {
+        this.getSeries();
+      }
     },
     methods: {
       getFilms() {
@@ -63,10 +75,12 @@
           api_key: this.apiKey,
           query: this.query,
           language: this.language,
+          page: this.filmsPage,
         }
         })
         .then((res) => {
           state.films = res.data.results;
+          state.totalFilmsPages = res.data.total_pages;
         })
         .finally(() => {
           state.loadedFilms = true;
@@ -79,10 +93,12 @@
           api_key: this.apiKey,
           query: this.query,
           language: this.language,
+          page: this.seriesPage,
         }
         })
         .then((res) => {
           state.series = res.data.results;
+          state.totalSeriesPages = res.data.total_pages;
         })
         .finally(() => {
           state.loadedSeries = true;

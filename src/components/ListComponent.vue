@@ -85,8 +85,7 @@
         justify-content: center;
         gap: $list-gap;
         .list__item {
-            flex-basis: 100%;
-            max-width: 342px;
+            flex-basis: 342px;
             height: 500px;
         }
     }

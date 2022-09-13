@@ -21,7 +21,7 @@
         },
         methods: {
             setQuery() {
-                state.query = this.query;                
+                state.query = this.query.trim();                
             }
         }
     }

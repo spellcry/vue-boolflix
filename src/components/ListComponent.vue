@@ -1,6 +1,12 @@
 <template>
     <div class="list-wrapper">
         <h3 v-if="notEmpty" class="title">{{ title }}</h3>
+        <div v-if="notEmpty" class="filter">
+            <select :id="isFilms ? 'films-genres' : 'series-genres'" v-model="filter">
+                <option value="1">Tutti</option>
+                <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
+            </select>
+        </div>
         <ul v-if="notEmpty" :class="[isFilms ? 'films__list' : 'series__list', 'list']">
             <li v-for="item in list" :key="item.id" :class="[listItemType, 'list__item']"><ListItem :type="type" :genres="item.genre_ids" :id="item.id" :overview="item.overview" :title="item.title" :originalTitle="item.original_title" :lang="item.original_language" :vote="item.vote_average" :poster="item.poster_path"/></li>
         </ul>
@@ -14,6 +20,11 @@
     export default {
         props: {
             type: String,
+        },
+        data() {
+            return {
+                filter: '1',
+            }
         },
         computed: {
             listItemType() {
@@ -38,7 +49,9 @@
                         }                        
                     });
                 }
-                return list;
+                return list.filter((item) => {
+                    return this.filter === '1' ? true : item.genre_ids.includes(this.filter);
+                });
             },
             isFilms() {
                 return this.type === 'films';
@@ -62,6 +75,15 @@
                     title = 'Serie TV';
                 return title;
             },
+            genres() {
+                let genres = [];
+                if ( this.isFilms ) {
+                    genres = state.moviesGenre;
+                } else if ( this.isSeries ) {
+                    genres = state.seriesGenre;
+                }
+                return genres;
+            }
         },
         components: {
             ListItem,
@@ -78,6 +100,11 @@
             padding-bottom: 2.5rem;
             text-align: center;
             font-size: 3rem;
+        }
+        .filter {
+            display: flex;
+            justify-content: flex-end;
+            padding-bottom: 2.5rem;
         }
     }
     .list {

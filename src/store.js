@@ -9,6 +9,7 @@ const state = Vue.observable({
     language: 'it-IT',
     loadedFilms: true,
     loadedSeries: true,
+    loadedGenres: true,
     moviesGenre: [],
     seriesGenre: [],
 });

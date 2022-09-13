@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <MainHeader/>
-    <div v-if="!loadedFilms && !loadedSeries" class="main-content__loader">
+    <div v-if="!loadedFilms && !loadedSeries & !loadedGenres" class="main-content__loader">
       <LoaderComponent/>
     </div>
-    <MainContent v-if="loadedFilms && loadedSeries"/>
+    <MainContent v-if="loadedFilms && loadedSeries & loadedGenres"/>
   </div>
 </template>
 
@@ -42,6 +42,9 @@
       loadedSeries() {
         return state.loadedSeries;
       },
+      loadedGenres() {
+        return state.loadedGenres;
+      }
     },
     watch: {
       query() {
@@ -86,6 +89,7 @@
         });
       },
       getMoviesGenres() {
+        state.loadedGenres = false;
         axios.get(`${this.baseUri}/genre/movie/list`,{
           params: {
             api_key: this.apiKey,
@@ -94,6 +98,9 @@
         })
         .then((res) => {
           state.moviesGenre = res.data.genres;
+        })
+        .finally(() => {
+          state.loadedGenres = true;
         });
       },
       getSeriesGenres() {

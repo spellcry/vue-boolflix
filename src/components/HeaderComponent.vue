@@ -34,6 +34,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            max-width: 1800px;
+            margin-inline: auto;
             padding-block: 0.25rem;
             .main-header__title {
                 color: #E50914;

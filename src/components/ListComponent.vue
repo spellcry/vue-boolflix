@@ -72,7 +72,7 @@
     @import '../styles/variables';
 
     .list-wrapper {
-        margin-bottom: 5rem;
+        padding-bottom: 5rem;
         .title {
             padding-bottom: 2.5rem;
             text-align: center;

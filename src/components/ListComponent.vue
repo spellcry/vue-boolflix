@@ -2,7 +2,7 @@
     <div class="list-wrapper">
         <h3 v-if="notEmpty" class="title">{{ title }}</h3>
         <ul v-if="notEmpty" :class="[isFilms ? 'films__list' : 'series__list', 'list']">
-            <li v-for="item in list" :key="item.id" :class="[listItemType, 'list__item']"><ListItem :overview="item.overview" :title="item.title" :originalTitle="item.original_title" :lang="item.original_language" :vote="item.vote_average" :poster="item.poster_path"/></li>
+            <li v-for="item in list" :key="item.id" :class="[listItemType, 'list__item']"><ListItem :type="type" :genres="item.genre_ids" :id="item.id" :overview="item.overview" :title="item.title" :originalTitle="item.original_title" :lang="item.original_language" :vote="item.vote_average" :poster="item.poster_path"/></li>
         </ul>
     </div>
 </template>
@@ -34,6 +34,7 @@
                             vote_average: item.vote_average,
                             poster_path: item.poster_path,
                             overview: item.overview,
+                            genre_ids: item.genre_ids,
                         }                        
                     });
                 }
@@ -64,7 +65,7 @@
         },
         components: {
             ListItem,
-        }
+        },
     }
 </script>
 

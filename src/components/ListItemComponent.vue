@@ -5,6 +5,14 @@
                 <p class="title"><span class="info-name">Titolo:</span> {{ title }}</p>
                 <p class="original-title"><span class="info-name">Titolo Originale:</span> {{ originalTitle }}</p>
                 <p class="lang"><span class="info-name">Lingua Originale:</span> <img :src="getFlagUrl(lang)"></p>
+                <p class="actors">
+                    <span class="info-name">Attori:</span>
+                    {{ actors }}
+                </p>
+                <p class="genres">
+                    <span class="info-name">Generi:</span>
+                    {{ genresFormatted }}
+                </p>
                 <p class="vote">
                     <span class="info-name">
                         Voto:
@@ -26,23 +34,37 @@
 
 <script>
 import axios from 'axios'
+import state from '../store'
 
 export default {
     props: {
+        id: Number,
         title: String,
         originalTitle: String,
         lang: String,
         vote: Number,
         poster: String,
         overview: String,
+        type: String,
+        genres: Array,
     },
     data() {
         return {
             dimensione: 'w342',
             posterVisible: false,
+            credits: [],
         }
     },
     computed: {
+        baseUri() {
+            return state.baseUri;
+        },
+        apiKey() {
+            return state.apiKey;
+        },
+        language() {
+            return state.language;
+        },
         hasPoster() {
             return this.posterVisible;
         },
@@ -53,7 +75,44 @@ export default {
             return Math.ceil(this.vote / 2);
         },
         overviewCutted() {
-            return this.overview.substring(0, 300) + '...';
+            return this.overview.substring(0, 150) + '...';
+        },
+        actors() {
+            let stringa = '';
+            this.credits.forEach((actor, index) => {
+                if ( index === this.credits.length - 1 )
+                    stringa += `${actor.name}`
+                else
+                    stringa += `${actor.name}, `
+            });
+            return stringa;
+        },
+        genresFormatted() {
+            let stringa = '';
+            if ( this.type === 'films' ) {
+                this.genres.forEach((genre, index) => {
+                    state.moviesGenre.forEach(objGenre => {
+                        if ( genre === objGenre.id ) {
+                            if ( index === this.genres.length - 1)
+                                stringa += `${objGenre.name}`
+                            else
+                                stringa += `${objGenre.name}, `                            
+                        }                    
+                    });
+                });
+            } else if ( this.type === 'series' ) {
+                this.genres.forEach((genre, index) => {
+                    state.seriesGenre.forEach(objGenre => {
+                        if ( genre === objGenre.id ) {
+                            if ( index === this.genres.length - 1)
+                                stringa += `${objGenre.name}`
+                            else
+                                stringa += `${objGenre.name}, `                            
+                        }                    
+                    });
+                });
+            }
+            return stringa;
         },
     },
     methods: {
@@ -80,9 +139,23 @@ export default {
                 this.posterVisible = false;
             }
         },
+        getCredits() {            
+            axios.get(`${this.baseUri}/movie/${this.id}/credits?api_key=${this.apiKey}&language=${this.language}`)
+                .then((res) => {
+                    const actors = res.data.cast;
+                    let actorsLength = actors.length >= 5 ? 5 : actors.length;
+                    for ( let i = 0; i < actorsLength; i++ ) {
+                        this.credits.push(actors[i]);
+                    }                                        
+                })
+                .catch(() => {
+                    this.credits.push('nessuno');
+                });
+        },
     },
     mounted() {
         this.isVisible();
+        this.getCredits();
     }
 }
 </script>

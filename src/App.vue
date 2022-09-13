@@ -23,30 +23,38 @@
       MainContent,
       LoaderComponent,
     },
-    data() {
-      return {
-        baseUri: 'https://api.themoviedb.org/3',
-        apiKey: '5702129c9507efdfcd526d3dbc3febce',
-        language: 'it-IT',
-        loadedFilms: true,
-        loadedSeries: true,
-      }
-    },
     computed: {
+      baseUri() {
+        return state.baseUri;
+      },
+      apiKey() {
+        return state.apiKey;
+      },
+      language() {
+        return state.language;
+      },
       query() {
         return state.query;
-      }
+      },
+      loadedFilms() {
+        return state.loadedFilms;
+      },
+      loadedSeries() {
+        return state.loadedSeries;
+      },
     },
     watch: {
       query() {
         if ( this.query !== '' )
           this.getFilms();
           this.getSeries();
+          this.getMoviesGenres();
+          this.getSeriesGenres();
       },
     },
     methods: {
       getFilms() {
-        this.loadedFilms = false;
+        state.loadedFilms = false;
         axios.get(`${this.baseUri}/search/movie`,{
         params: {
           api_key: this.apiKey,
@@ -58,11 +66,11 @@
           state.films = res.data.results;
         })
         .finally(() => {
-          this.loadedFilms = true;
+          state.loadedFilms = true;
         });
       },
       getSeries() {
-        this.loadedSeries = false;
+        state.loadedSeries = false;
         axios.get(`${this.baseUri}/search/tv`,{
         params: {
           api_key: this.apiKey,
@@ -74,9 +82,31 @@
           state.series = res.data.results;
         })
         .finally(() => {
-          this.loadedSeries = true;
+          state.loadedSeries = true;
         });
       },
+      getMoviesGenres() {
+        axios.get(`${this.baseUri}/genre/movie/list`,{
+          params: {
+            api_key: this.apiKey,
+            language: this.language,
+          }
+        })
+        .then((res) => {
+          state.moviesGenre = res.data.genres;
+        });
+      },
+      getSeriesGenres() {
+        axios.get(`${this.baseUri}/genre/tv/list`,{
+          params: {
+            api_key: this.apiKey,
+            language: this.language,
+          }
+        })
+        .then((res) => {
+          state.seriesGenre = res.data.genres;
+        });
+      }
     },
   }
 </script>

@@ -82,11 +82,42 @@
     .list {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
         gap: $list-gap;
         .list__item {
-            flex-basis: 342px;
-            height: 500px;
+            flex-basis: calc(calc(100% - calc($list-gap * 0)) / 1);
+            aspect-ratio: 2/3;
         }
+    }
+    @media (min-width: 600px) {
+        .list {
+            .list__item {
+                flex-basis: calc(calc(100% - calc($list-gap * 1)) / 2);
+            }
+        }
+
+    }
+    @media (min-width: 1000px) {
+        .list {
+            .list__item {
+                flex-basis: calc(calc(100% - calc($list-gap * 2)) / 3);
+            }
+        }
+
+    }
+    @media (min-width: 1300px) {
+        .list {
+            .list__item {
+                flex-basis: calc(calc(100% - calc($list-gap * 3)) / 4);
+            }
+        }
+
+    }
+    @media (min-width: 1650px) {
+        .list {
+            .list__item {
+                flex-basis: calc(calc(100% - calc($list-gap * 4)) / 5);
+            }
+        }
+
     }
 </style>

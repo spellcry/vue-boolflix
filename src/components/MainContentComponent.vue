@@ -18,5 +18,10 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .main-content {
+        .container {
+            max-width: 1650px;
+            margin-inline: auto;
+        }
+    }
 </style>
